@@ -1,24 +1,38 @@
-import logo from './logo.svg';
+
+import { useEffect,useState } from 'react';
 import './App.css';
+import Capture from './Data/Capture';
+import React from 'react';
+import Text from './Data/Text';
 
 function App() {
+
+  const [post,setPost]=useState()
+  useEffect(()=>{
+    fetch('https://data-backend-tmlw.vercel.app/dataPage').then(response=>response.json())
+    .then(json=>setPost(json))
+  },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+    {
+      Text.map((item)=>{
+        return(
+          <Capture  title={item.title} name={item.name} age={item.age} qualification={item.qualification} descripition={item.descripition}/>
+        )
+      })
+    }
+
+    <div>
+    {
+      post && post.map((item)=>{
+        return(
+          <Capture  title={item.title} name={item.name} age={item.age} qualification={item.qualification} descripition={item.descripition}/>
+        )
+      })
+    }
     </div>
+
+    </>
   );
 }
 
